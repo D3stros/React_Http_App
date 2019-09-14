@@ -37,7 +37,7 @@ class App extends Component {
     const posts = this.state.posts.filter(p => p.id !== post.id);
     this.setState({ posts });
     try {
-      await axios.delete(apiEndpoint + "");
+      await axios.delete("b" + apiEndpoint + "/" + post.id);
     } catch (ex) {
       // Expected Errors (404: not found, 400: bad request) - CLIENT ERRORS
       // -Display a specific error message
