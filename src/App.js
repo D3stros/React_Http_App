@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import http from "./services/httpService";
+import config from "./config.json";
 import "./App.css";
 
-const apiEndpoint = "https://jsonplaceholder.typicode.com/posts";
 class App extends Component {
   state = {
     posts: []
@@ -10,13 +10,13 @@ class App extends Component {
 
   async componentDidMount() {
     // Promise object is pending first > resolves(success) OR rejected(failure)
-    const { data: posts } = await http.get(apiEndpoint);
+    const { data: posts } = await http.get(config.apiEndpoint);
     this.setState({ posts });
   }
 
   handleAdd = async () => {
     const obj = { title: "a", body: "b" };
-    const { data: post } = await http.post(apiEndpoint, obj);
+    const { data: post } = await http.post(config.apiEndpoint, obj);
 
     const posts = [post, ...this.state.posts];
     this.setState({ posts });
@@ -24,7 +24,7 @@ class App extends Component {
 
   handleUpdate = async post => {
     post.title = "Updated";
-    const { data } = await http.put(apiEndpoint + "/" + post.id, post);
+    const { data } = await http.put(config.apiEndpoint + "/" + post.id, post);
     const posts = [...this.state.posts];
     const index = posts.indexOf(post);
     posts[index] = { ...post };
@@ -37,7 +37,7 @@ class App extends Component {
     const posts = this.state.posts.filter(p => p.id !== post.id);
     this.setState({ posts });
     try {
-      await http.delete("s" + apiEndpoint + "" + post.id);
+      await http.delete("s" + config.apiEndpoint + "" + post.id);
     } catch (ex) {
       // Expected Errors (404: not found, 400: bad request) - CLIENT ERRORS
       // -Display a specific error message
