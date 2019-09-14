@@ -22,7 +22,7 @@ class App extends Component {
 
   async componentDidMount() {
     // Promise object is pending first > resolves(success) OR rejected(failure)
-    const { data: posts } = await axios.get(apiEndpoint);
+    const { data: posts } = await axios.get("s" + apiEndpoint);
     this.setState({ posts });
   }
 
@@ -49,7 +49,7 @@ class App extends Component {
     const posts = this.state.posts.filter(p => p.id !== post.id);
     this.setState({ posts });
     try {
-      await axios.delete(apiEndpoint + "" + post.id);
+      await axios.delete("s" + apiEndpoint + "" + post.id);
     } catch (ex) {
       // Expected Errors (404: not found, 400: bad request) - CLIENT ERRORS
       // -Display a specific error message
